@@ -3,24 +3,20 @@ import { errorHandler } from "../utils/error.js";
 
 export const getAllUsers = async (req, res, next) => {
   try {
-    // Obtener todos los usuarios, excluyendo la contraseña y refreshToken
     const users = await User.find({}, { password: 0, refreshToken: 0 });
-
     res.status(200).json(users);
   } catch (error) {
-    console.error(error); // <- opcional, útil para debug
+    console.error(error); // <- aquí ya usas la excepción
     next(errorHandler(500, "Error al obtener usuarios"));
   }
 };
 
 export const getDashboardStats = async (req, res, next) => {
   try {
-    // Contar usuarios por tipo
     const totalUsers = await User.countDocuments({ isAdmin: false, isVendor: false });
     const totalVendors = await User.countDocuments({ isVendor: true });
     const totalAdmins = await User.countDocuments({ isAdmin: true });
 
-    // Obtener usuarios recientes
     const recentUsers = await User.find(
       { isAdmin: false, isVendor: false },
       { username: 1, email: 1, createdAt: 1, profilePicture: 1 }
@@ -35,7 +31,7 @@ export const getDashboardStats = async (req, res, next) => {
       recentUsers,
     });
   } catch (error) {
-    console.error(error); // <- opcional
+    console.error(error); // <- aquí también lo manejas
     next(errorHandler(500, "Error al obtener estadísticas"));
   }
 };
