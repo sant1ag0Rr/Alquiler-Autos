@@ -1,22 +1,41 @@
-export const adminAuth = (req, res, next) => {
+import User from "../models/userModel.js";
+import { errorHandler } from "../utils/error.js";
+
+export const getAllUsers = async (req, res, next) => {
   try {
-    if (req.user && req.user.isAdmin) {
-      next();
-    } else {
-      return res.status(403).json({ message: "Only access for admins" });
-    }
+    // Obtener todos los usuarios, excluyendo la contraseña y refreshToken
+    const users = await User.find({}, { password: 0, refreshToken: 0 });
+
+    res.status(200).json(users);
   } catch (error) {
-    next(error);
+    console.error(error); // <- opcional, útil para debug
+    next(errorHandler(500, "Error al obtener usuarios"));
   }
 };
 
-export const adminProfile = async (req, res, next) => {
+export const getDashboardStats = async (req, res, next) => {
   try {
+    // Contar usuarios por tipo
+    const totalUsers = await User.countDocuments({ isAdmin: false, isVendor: false });
+    const totalVendors = await User.countDocuments({ isVendor: true });
+    const totalAdmins = await User.countDocuments({ isAdmin: true });
+
+    // Obtener usuarios recientes
+    const recentUsers = await User.find(
+      { isAdmin: false, isVendor: false },
+      { username: 1, email: 1, createdAt: 1, profilePicture: 1 }
+    )
+      .sort({ createdAt: -1 })
+      .limit(5);
+
     res.status(200).json({
-      message: "Admin profile data",
-      user: req.user
+      totalUsers,
+      totalVendors,
+      totalAdmins,
+      recentUsers,
     });
   } catch (error) {
-    next(error);
+    console.error(error); // <- opcional
+    next(errorHandler(500, "Error al obtener estadísticas"));
   }
 };
