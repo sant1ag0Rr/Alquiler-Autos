@@ -128,28 +128,6 @@ export const HeroParallax = () => {
               </div>
             ))}
           </motion.div>
-          {/* <motion.div className="flex flex-row-reverse  mb-[200px]  "  style={{ rotateZ: rotateZM  }}>
-            {secondRow.map((product,index) => (
-                
-              <div key={index}  className="flex flex-row justify-center items-center p-[100px] bg-gradient-to-br from-green-400 to-slate-900 max-w-[1300px] rounded-lg py-[100px] px-[100px] mx-auto ">
-                <div>
-                  <ProductCard
-                    product={product}
-                    translate={translateXReverse}
-                    
-                  />
-                </div>
-                <div className="pr-10">
-                  <h1 className="w-[400px] text-4xl    p-4 mr-[200px] text-start  from-white via-gray-50 to-black-700 bg-gradient-to-bl bg-clip-text text-transparent font-bold capitalize  ">
-                    Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-                    Adipisci odit accusantium saepe iure eligendi, nihil
-                    perferendis reprehenderit dolore distinctio quaerat
-                  </h1>
-                </div>
-              </div>
-       
-            ))}
-          </motion.div> */}
           <motion.div className="flex h-[600px] flex-row-reverse space-x-reverse space-x-20">
            
           </motion.div>
