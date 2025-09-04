@@ -6,7 +6,7 @@ export const getAllUsers = async (req, res, next) => {
     const users = await User.find({}, { password: 0, refreshToken: 0 });
     res.status(200).json(users);
   } catch (error) {
-    console.error(error); // <- aquí ya usas la excepción
+    console.error(error); // ahora sí usas la excepción
     next(errorHandler(500, "Error al obtener usuarios"));
   }
 };
@@ -31,7 +31,7 @@ export const getDashboardStats = async (req, res, next) => {
       recentUsers,
     });
   } catch (error) {
-    console.error(error); // <- aquí también lo manejas
+    console.error(error); // se usa el error
     next(errorHandler(500, "Error al obtener estadísticas"));
   }
 };
